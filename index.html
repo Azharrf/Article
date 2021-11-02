@@ -99,7 +99,8 @@
     </div>
 
     <!-- Modal Article -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal-post" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -108,17 +109,29 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="exampleFormControlInput1" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleFormControlInput1" class="form-label">Website</label>
+                                <input type="text" class="form-control" id="website">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title-article">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Article</label>
-                        <textarea class="form-control" id="body-article" rows="10"></textarea>
+                        <textarea class="form-control" id="body-article" rows="8"></textarea>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer modal-foot-post">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dismis</button>
-                    <button type="button" class="btn btn-primary sbmt-button" data-bs-dismiss="modal">Finish</button>
+                    <button type="submit" class="btn btn-primary sbmt-button">Finish</button>
                 </div>
             </div>
         </div>
