@@ -6,7 +6,7 @@ const username = document.getElementById('username');
 const website = document.getElementById('website');
 const sbmtButton = document.querySelector('.sbmt-button');
 const dltButton = document.querySelector('.btn-delete');
-const mdlPost = document.querySelector('.modal-foot-post');
+const mdlPost = document.querySelector('.modal-body');
 let user = url[0];
 let post = url[1];
 let id = '';
@@ -36,32 +36,18 @@ function showPost(data){
             }
         });
     });
-
-    // for(i = 0; i < 10; i++){
-    //     for(x = 0; x < 10; x++){
-    //         if(i >= 1){
-    //             let result = x + (i * 10)
-    //             // article += result;
-    //             article += card(data[0][i], data[1][result])
-    //         } else {
-    //             // article += x
-    //             article += card(data[0][i], data[1][x])
-    //         }
-    //         // console.log(data[0][i], data[1][x])
-    //     }
-    // }
-    // // console.log(article)
     mainArticle.innerHTML = article;
 }
 
 function card(user, post){
-    // console.log('card', user, post)
+    console.log('user', user)
+    console.log('post', post)
     // Limit Word
-    let titleText = post.title.slice(0, 70) + (post.title.length > 70 ? "..." : " ")
-    let bodyText = post.body.slice(0, 180) + (post.body.length > 180 ? "..." : " ")
+    let titleText = (post || user).title.slice(0, 70) + ((post || user).title.length > 70 ? "..." : " ")
+    let bodyText = (post || user).body.slice(0, 180) + ((post || user).body.length > 180 ? "..." : " ")
 
     return `<div class="col card-article">
-                <div class="card" data-post="${post.id}">
+                <div class="card" data-post="${post.id || user.id}">
                     <div class="settings">
                         <i class='bx bx-dots-vertical-rounded menu-toggle'></i>
                         <div class="set">
@@ -74,8 +60,8 @@ function card(user, post){
                         <img src="img/3.jpg">
                     </div>
                     <div class="col-md-7 desc-article">
-                        <h1 class="title-post">${titleText}</h1>
-                        <p class="body-post">${bodyText}</p>
+                        <h1 class="title-post">${titleText || user.title}</h1>
+                        <p class="body-post">${bodyText || user.body}</p>
                         <div class="user">
                             <div class="avatar">
                                 <i class='bx bxs-user'></i>
@@ -108,35 +94,39 @@ mainArticle.addEventListener('click', (e) => {
         username.value = userName;
         website.value = webSite;
     }
+});
 
-    // Update
-    sbmtButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        // console.log(`${id}`)
-        fetch(`${post}/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: titleArticle.value,
-                body: bodyArticle.value,
-            })
-
+// Update
+sbmtButton.addEventListener('click', async (e) => {
+    e.preventDefault();
+    // console.log(`${id}`)
+    await fetch(`${post}/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: titleArticle.value,
+            body: bodyArticle.value,
         })
-            .then(res => res.json())
-            .then(sbmtButton.setAttribute('data-bs-dismiss', 'modal'))
-        titleArticle.value = '';
-        bodyArticle.value = '';
-        username.value = '';
-        website.value = '';
-    });
+
+    })
+        .then(res => res.json())
+        .then(data => {
+            alert(`Title: ${data.title}\nBody: ${data.body}`);
+            sbmtButton.setAttribute('data-bs-dismiss', 'modal')
+        })
+    titleArticle.value = '';
+    bodyArticle.value = '';
+    username.value = '';
+    website.value = '';
 });
 
 // Add Post
-mdlPost.addEventListener('click', (e) => {
-    // console.log('halo')
-    fetch(url, {
+mdlPost.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log('halo')
+    fetch(`${post}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -153,7 +143,9 @@ mdlPost.addEventListener('click', (e) => {
             console.log(data)
             // const dataArr = [];
             // dataArr.push(data);
-            // renderPosts(dataArr);
+            // card(data);
+            alert(`Title: ${data.title}\nBody: ${data.body}`);
+            sbmtButton.setAttribute('data-bs-dismiss', 'modal');
         })
 });
 

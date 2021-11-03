@@ -356,6 +356,32 @@ h1{
     background: #3d5ddd;
 }
 
+.modal-post .modal-body{
+    height: 510px;
+    position: relative;
+}
+
+.modal-post .modal-body .button-form {
+    height: 70px;
+    padding: 20px;
+    background-color: #f2f2f4;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.modal-post .modal-body .button-form button {
+    width: 100px;
+    padding: 8px 16px;
+    font-size: 15px;
+    margin-left: 12px;
+}
+
 .alert-modal .modal-content {
     height: 230px;
     font-size: 15px;
