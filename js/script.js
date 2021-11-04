@@ -7,11 +7,19 @@ const website = document.getElementById('website');
 const sbmtButton = document.querySelector('.sbmt-button');
 const dltButton = document.querySelector('.btn-delete');
 const mdlPost = document.querySelector('.modal-body');
+const menuIcon = document.querySelector('.menu-icon');
+const menuSlide = document.querySelector('.menu');
 let user = url[0];
 let post = url[1];
 let id = '';
 
 // Menu Toggle
+menuIcon.addEventListener('click', () => {
+    menuSlide.classList.toggle('active');
+    menuIcon.classList.toggle('active');
+})
+
+// Menu card
 document.addEventListener('click', function(e) {
     if(e.target.classList.contains('menu-toggle')){
         e.target.nextElementSibling.classList.toggle('active');
@@ -23,7 +31,7 @@ Promise.all(url.map(u => fetch(u)))
         .then(data => showPost(data))
 
 function showPost(data){
-    // console.log("data", data)
+    console.log("data", data)
     const mainArticle = document.querySelector('.main-article');
     let users = data[0];
     let posts = data[1];
@@ -36,12 +44,12 @@ function showPost(data){
             }
         });
     });
-    mainArticle.innerHTML = article;
+    // mainArticle.innerHTML = article;
 }
 
 function card(user, post){
-    console.log('user', user)
-    console.log('post', post)
+    // console.log('user', user)
+    // console.log('post', post)
     // Limit Word
     let titleText = (post || user).title.slice(0, 70) + ((post || user).title.length > 70 ? "..." : " ")
     let bodyText = (post || user).body.slice(0, 180) + ((post || user).body.length > 180 ? "..." : " ")

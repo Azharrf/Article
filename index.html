@@ -13,35 +13,58 @@
 </head>
 
 <body>
-    <nav class="nav navbar navbar-light bg-white">
-        <div class="container">
-            <div class="brand">
-                <h1>article<span>.</span></h1>
+    <nav class="nav navbar sticky-top navbar-expand-lg navbar-light bg-white">
+        <div class="container-lg">
+            <a class="navbar-brand brand" href="#">article.</a>
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <form class="d-flex ms-auto search-input">
-                <input class="form-control me-2" type="search" placeholder="Search for articles" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit"><i class='bx bx-search'></i></button>
-            </form>
+            <div class="d-flex menu ms-auto">
+                <form class="d-flex search-input">
+                    <input class="form-control me-2" type="search" placeholder="Search for articles"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"><i class='bx bx-search'></i></button>
+                </form>
 
-            <div class="add-post" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class='bx bxs-plus-square'></i>
-                <span>Post Article</span>
-            </div>
+                <div class="add-post" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class='bx bxs-plus-square'></i>
+                    <span>Post Article</span>
+                </div>
 
-            <div class="account">
-                <i class='bx bx-user'></i>
+                <div class="account">
+                    <i class='bx bx-user'></i>
+                </div>
             </div>
-        </div>
         </div>
     </nav>
 
-    <div class="container container-article pt-3">
+    <div class="container-lg container-article pt-3">
         <div class="row">
-            <div class="col-md-8 main-article">
+            <div class="col col-md-8 main-article">
                 <div class="articles row"></div>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-12 col-md-4 aside">
                 <div class="side-article">
                     <div class="sugestions">
                         <div class="title">
@@ -49,7 +72,7 @@
                                 <i class='bx bxs-user'></i>
                                 <span>Jhon Doe</span>
                             </div>
-                            <h4 class="title-sugest">The Bank of England Risks Hiking Too Far Ahead</h4>
+                            <h1 class="title-sugest">The Bank of England Risks Hiking Too Far Ahead</h1>
                             <span class="sub-sugest">BUSINESS</span>
                         </div>
                         <div class="poster">
@@ -62,8 +85,8 @@
                                 <i class='bx bxs-user'></i>
                                 <span>Marcus Ashworth</span>
                             </div>
-                            <h4 class="title-sugest">Inflation Claritiy Doesn't Mean the News Is Good</h4>
-                            <span class="sub-sugest">MARKETS</span>
+                            <h1 class="title-sugest">Inflation Claritiy Doesn't Mean the News Is Good</h4>
+                                <span class="sub-sugest">MARKETS</span>
                         </div>
                         <div class="poster">
                             <img src="img/2.jpg">
@@ -75,7 +98,7 @@
                                 <i class='bx bxs-user'></i>
                                 <span>Andrea Authers</span>
                             </div>
-                            <h4 class="title-sugest">Anxious Shoppers Are Hurting Asos and the Onli..</h4>
+                            <h1 class="title-sugest">Anxious Shoppers Are Hurting Asos and the Onli..</h1>
                             <span class="sub-sugest">BUSINESS</span>
                         </div>
                         <div class="poster">
@@ -85,7 +108,7 @@
                 </div>
 
                 <div class="newsletter">
-                    <h4>Newsletter</h4>
+                    <h1>Newsletter</h1>
                     <p>The latest on what's moving markets, in your inbox every morning</p>
 
                     <div class="input-group mb-3 email">
