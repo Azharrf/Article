@@ -9,6 +9,11 @@ const dltButton = document.querySelector('.btn-delete');
 const mdlPost = document.querySelector('.modal-body');
 const menuIcon = document.querySelector('.menu-icon');
 const menuSlide = document.querySelector('.menu');
+const listElement = document.querySelector('.articles');
+const paginationElement = document.querySelector('.pagination');
+const newData = [];
+let curentPage = 1;
+let rows = 10;
 let user = url[0];
 let post = url[1];
 let id = '';
@@ -26,58 +31,72 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// Fetch API
 Promise.all(url.map(u => fetch(u)))
         .then(response => Promise.all(response.map(res => res.json())))
-        .then(data => showPost(data))
+        .then(data => getArticle(data))
 
-function showPost(data){
-    console.log("data", data)
-    const mainArticle = document.querySelector('.main-article');
+function getArticle(data){
+    // console.log("data", data)
     let users = data[0];
     let posts = data[1];
-    let article = '';
 
-    posts.map(post => {
-        users.map(user => {
+    posts.forEach(post => {
+        users.forEach(user => {
             if(post.userId == user.id){
-                article += card(user, post)
+                let merged = Object.assign({}, user, post)
+                newData.push(merged);
             }
         });
     });
-    // mainArticle.innerHTML = article;
+    displayList(newData, listElement, rows, curentPage);
+    setupPagination(newData, paginationElement, rows);
 }
 
-function card(user, post){
-    // console.log('user', user)
-    // console.log('post', post)
-    // Limit Word
-    let titleText = (post || user).title.slice(0, 70) + ((post || user).title.length > 70 ? "..." : " ")
-    let bodyText = (post || user).body.slice(0, 180) + ((post || user).body.length > 180 ? "..." : " ")
+// Card
+function displayList(items, wrapper, rowsPage, page) {
+    wrapper.innerHTML = '';
+    page--;
 
-    return `<div class="col card-article">
-                <div class="card" data-post="${post.id || user.id}">
-                    <div class="settings">
-                        <i class='bx bx-dots-vertical-rounded menu-toggle'></i>
-                        <div class="set">
-                            <a href="#" class="menu edit" id="edit-post" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='bx bxs-edit'></i>Edit</a>
+    let start = rowsPage * page;
+    let end = start + rowsPage;
+    let paginatedItems = items.slice(start, end)
 
-                            <a href="#" class="menu delete" id="delete-post" data-bs-toggle="modal" data-bs-target="#modal-alert"><i class='bx bxs-trash'></i>Delete</a>
+    for(let i = 0; i < paginatedItems.length; i++){
+        let item = paginatedItems[i];
+
+        let itemElement = document.createElement('div');
+        itemElement.classList.add('col');
+        itemElement.classList.add('card-article');
+        itemElement.innerHTML = card(item);
+
+        wrapper.appendChild(itemElement);
+    }
+}
+
+function card(item){
+    return `<div class="card" data-post="${item.id}">
+                <div class="settings">
+                    <i class='bx bx-dots-vertical-rounded menu-toggle'></i>
+                    <div class="set">
+                        <a href="#" class="menu edit" id="edit-post" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='bx bxs-edit'></i>Edit</a>
+
+                        <a href="#" class="menu delete" id="delete-post" data-bs-toggle="modal" data-bs-target="#modal-alert"><i class='bx bxs-trash'></i>Delete</a>
+                    </div>
+                </div>
+                <div class="col-md-5 poster">
+                    <img src="img/3.jpg">
+                </div>
+                <div class="col-md-7 desc-article">
+                    <h1 class="title-post">${item.title}</h1>
+                    <p class="body-post">${item.body}</p>
+                    <div class="user">
+                        <div class="avatar">
+                            <i class='bx bxs-user'></i>
                         </div>
-                    </div>
-                    <div class="col-md-5 poster">
-                        <img src="img/3.jpg">
-                    </div>
-                    <div class="col-md-7 desc-article">
-                        <h1 class="title-post">${titleText || user.title}</h1>
-                        <p class="body-post">${bodyText || user.body}</p>
-                        <div class="user">
-                            <div class="avatar">
-                                <i class='bx bxs-user'></i>
-                            </div>
-                            <div class="name">
-                                <h5 class="username">${user.name}</h5>
-                                <span class="website">${user.website}</span>
-                            </div>
+                        <div class="name">
+                            <h5 class="username">${item.name}</h5>
+                            <span class="website">${item.website}</span>
                         </div>
                     </div>
                 </div>
@@ -169,3 +188,46 @@ dltButton.addEventListener('click', () => {
             }
         }))
 });
+
+// Pagination
+function setupPagination(items, wrapper, rowsPage) {
+    wrapper.innerHTML = '';
+
+    let pageCount = Math.ceil(items.length / rowsPage);
+    for(let i = 1; i < pageCount + 1; i++){
+        let btn = paginationButton(i, items);
+        wrapper.appendChild(btn)
+    }
+}
+
+function paginationButton(page, items){
+    let newButton = document.createElement('li');
+    newButton.classList.add('page-item');
+    let newLink = document.createElement('a');
+    newLink.classList.add('page-link');
+    newLink.innerText = page;
+
+    newButton.appendChild(newLink)
+
+    if(curentPage == page){
+        newButton.classList.add('active');
+    }
+
+    newButton.addEventListener('click', function() {
+        curentPage = page;
+        displayList(items, listElement, rows, curentPage);
+
+        let curentBtn = document.querySelector('.pagination .page-item.active');
+        curentBtn.classList.remove('active');
+
+        newButton.classList.add('active');
+        jumpTop();
+    })
+
+    return newButton;
+}
+
+function jumpTop(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}

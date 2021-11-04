@@ -469,6 +469,12 @@ h1{
     color: white;
 }
 
+/* Pagination */
+.navigation{
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
 @media (max-width: 884px){
     .nav{
         height: 7vh;
